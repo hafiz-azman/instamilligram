@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "updatePost",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "description": { "type": "string" },
+    "comment": {
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": [
+        "userId",
+        "message"
+      ]
+    },
+    "likedBy": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "id",
+        "description"
+      ]
+    },
+    {
+      "required": [
+        "id",
+        "comment"
+      ]
+    },
+    {
+      "required": [
+        "id",
+        "likedBy"
+      ]
+    }
+  ],
+  "additionalProperties": false
+}

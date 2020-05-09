@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "createUser",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "status": { "type": "string" },
+    "following": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "followers": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "oneOf": [
+    { "required": [
+        "id",
+        "name"
+    ] },
+    { "required": [
+        "id",
+        "status"
+    ] },
+    { "required": [
+        "id",
+        "following"
+    ] },
+    { "required": [
+        "id",
+        "followers"
+    ] }
+  ],
+  "additionalProperties": false
+}
