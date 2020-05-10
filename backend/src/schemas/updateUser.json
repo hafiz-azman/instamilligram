@@ -1,19 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "createUser",
+  "title": "updateUser",
   "type": "object",
   "properties": {
     "id": { "type": "string" },
     "name": { "type": "string" },
     "status": { "type": "string" },
-    "following": {
-      "type": "array",
-      "items": { "type": "string" }
-    },
-    "followers": {
-      "type": "array",
-      "items": { "type": "string" }
-    }
+    "follows": { "type": "string" },
+    "followedBy": { "type": "string" }
   },
   "oneOf": [
     { "required": [
@@ -26,11 +20,11 @@
     ] },
     { "required": [
         "id",
-        "following"
+        "follows"
     ] },
     { "required": [
         "id",
-        "followers"
+        "followedBy"
     ] }
   ],
   "additionalProperties": false

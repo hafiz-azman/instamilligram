@@ -6,7 +6,7 @@ const
 
 const logger = createLogger('createPostLambdaHttpLogger')
 
-module.exports = event => {
+module.exports = async event => {
   logger.info('createPost lambda http invoked', { parameters: { event } })
   
   const 
@@ -25,7 +25,7 @@ module.exports = event => {
   }
     
   try {
-    const createPostBusinessLogicResult = createPostBusinessLogic({
+    const createPostBusinessLogicResult = await createPostBusinessLogic({
       userId,
       photoUrl,
       description

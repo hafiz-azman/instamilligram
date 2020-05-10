@@ -16,10 +16,8 @@
         "message"
       ]
     },
-    "likedBy": {
-      "type": "array",
-      "items": { "type": "string" }
-    }
+    "likedBy": { "type": "string" },
+    "unlikedBy": { "type": "string" }
   },
   "oneOf": [
     {
@@ -38,6 +36,12 @@
       "required": [
         "id",
         "likedBy"
+      ]
+    },
+    {
+      "required": [
+        "id",
+        "unlikedBy"
       ]
     }
   ],

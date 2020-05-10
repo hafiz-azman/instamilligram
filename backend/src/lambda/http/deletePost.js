@@ -6,7 +6,7 @@ const
 
 const logger = createLogger('deletePostLambdaHttpLogger')
 
-module.exports = event => {
+module.exports = async event => {
   logger.info('deletePost lambda http invoked', { parameters: { event } })
   
   const id = event.pathParameters.id
@@ -19,7 +19,7 @@ module.exports = event => {
   }
     
   try {
-    const deletePostBusinessLogicResult = deletePostBusinessLogic(id)
+    const deletePostBusinessLogicResult = await deletePostBusinessLogic(id)
     
     logger.info('deletePostBusinessLogicResult', { deletePostBusinessLogicResult })
     
