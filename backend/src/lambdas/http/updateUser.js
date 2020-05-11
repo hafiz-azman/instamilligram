@@ -1,8 +1,8 @@
-const updateUserBusinessLogic = require('../../businessLogic/updateUser')
+const usersBusinessLogic = require('../../businessLogic/users')
 
 const
   { createLogger } = require('../../utils/logger'),
-  { errorResponseBuilder } = require('./utils')
+  { errorResponseBuilder, getUserIdFromAuth } = require('./utils')
 
 const logger = createLogger('updateUserLambdaHttpLogger')
 
@@ -19,7 +19,7 @@ module.exports = async event => {
       followedBy
     } = reqBody
 
-  if (!id || !name || !status || !follows || !followedBy) {
+  if (!id || (!name && !status && !follows && !followedBy)) {
     return errorResponseBuilder({
       statusCode: 400,
       message: 'Invalid request body'
@@ -27,15 +27,18 @@ module.exports = async event => {
   }
 
   try {
-    const updateUserBusinessLogicResult = await updateUserBusinessLogic({
-      id,
-      name,
-      status,
-      follows,
-      followedBy
-    })
+    const
+      userId = getUserIdFromAuth(event),
+      usersUpdateBusinessLogicResult = await usersBusinessLogic.update(
+        id,
+        userId,
+        name,
+        status,
+        follows,
+        followedBy
+      )
 
-    logger.info('updateUserBusinessLogicResult', { updateUserBusinessLogicResult })
+    logger.info('usersUpdateBusinessLogicResult', { usersUpdateBusinessLogicResult })
 
     return { statusCode: 200 }
   } catch (error) {

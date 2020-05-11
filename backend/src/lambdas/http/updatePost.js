@@ -1,8 +1,8 @@
-const updatePostBusinessLogic = require('../../businessLogic/updatePost')
+const postsBusinessLogic = require('../../businessLogic/posts')
 
 const
   { createLogger } = require('../../utils/logger'),
-  { errorResponseBuilder } = require('./utils')
+  { errorResponseBuilder, getUserIdFromAuth } = require('./utils')
 
 const logger = createLogger('updatePostLambdaHttpLogger')
 
@@ -27,15 +27,18 @@ module.exports = async event => {
   }
 
   try {
-    const updatePostBusinessLogicResult = await updatePostBusinessLogic({
-      id,
-      description,
-      comment,
-      likedBy,
-      unlikedBy
-    })
+    const
+      userId = getUserIdFromAuth(event),
+      postsUpdateBusinessLogicResult = await postsBusinessLogic.update(
+        id,
+        userId,
+        description,
+        comment,
+        likedBy,
+        unlikedBy
+      )
 
-    logger.info('updatePostBusinessLogicResult', { updatePostBusinessLogicResult })
+    logger.info('postsUpdateBusinessLogicResult', { postsUpdateBusinessLogicResult })
 
     return { statusCode: 200 }
   } catch (error) {

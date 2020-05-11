@@ -1,4 +1,4 @@
-const getPostsBusinessLogic = require('../../businessLogic/getPosts')
+const postsBusinessLogic = require('../../businessLogic/posts')
 
 const
   { createLogger } = require('../../utils/logger'),
@@ -12,13 +12,13 @@ module.exports = async event => {
   try {
     const
       userId = getUserIdFromAuth(event),
-      getPostsBusinessLogicResult = await getPostsBusinessLogic(userId)
+      postsGetBusinessLogicResult = await postsBusinessLogic.getAllByUser(userId)
 
-    logger.info('getPostsBusinessLogic', { getPostsBusinessLogic })
+    logger.info('postsGetBusinessLogicResult', { postsGetBusinessLogicResult })
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ response: getPostsBusinessLogicResult })
+      body: JSON.stringify({ response: postsGetBusinessLogicResult })
     }
   } catch (error) {
     logger.error(error)

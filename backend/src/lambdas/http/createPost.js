@@ -1,42 +1,36 @@
-const createPostBusinessLogic = require('../../businessLogic/createPost')
+const postsBusinessLogic = require('../../businessLogic/posts')
 
 const
   { createLogger } = require('../../utils/logger'),
-  { errorResponseBuilder } = require('./utils')
+  { errorResponseBuilder, getUserIdFromAuth } = require('./utils')
 
 const logger = createLogger('createPostLambdaHttpLogger')
 
 module.exports = async event => {
   logger.info('createPost lambda http invoked', { parameters: { event } })
-  
-  const 
+
+  const
     reqBody = JSON.parse(event.body),
-    {
-      userId,
-      photoUrl,
-      description
-    } = reqBody
-  
-  if (!userId || !photoUrl || !description) {
+    { description } = reqBody
+
+  if (!description) {
     return errorResponseBuilder({
       statusCode: 400,
       message: 'Invalid request body'
     })
   }
-    
+
   try {
-    const createPostBusinessLogicResult = await createPostBusinessLogic({
-      userId,
-      photoUrl,
-      description
-    })
-    
-    logger.info('createPostBusinessLogicResult', { createPostBusinessLogicResult })
-    
+    const
+      userId = getUserIdFromAuth(event),
+      postsCreateBusinessLogicResult = await postsBusinessLogic.create(userId, description)
+
+    logger.info('postsCreateBusinessLogicResult', { postsCreateBusinessLogicResult })
+
     return { statusCode: 201 }
   } catch (error) {
     logger.error(error)
-    
+
     return errorResponseBuilder(error)
   }
 }

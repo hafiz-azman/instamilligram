@@ -67,6 +67,22 @@ provider:
 functions:
   auth:
     handler: src/lambda/auth/auth0Authorizer
+  createUser:
+    handler: src/lambda/http/createUser
+    events:
+      - http:
+          method: post
+          path: users
+          cors: true
+          authorizer: auth
+          request:
+            schema:
+              application/json: ${file(src/schemas/createUser.json)}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
   updateUser:
     handler: src/lambda/http/updateUser
     events:
@@ -83,7 +99,7 @@ functions:
         Action:
           - dynamodb:UpdateItem
           - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POSTS_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
   createPost:
     handler: src/lambda/http/createPost
     events:

@@ -2,15 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "createPost",
   "type": "object",
-  "properties": {
-    "userId": { "type": "string" },
-    "photoUrl": { "type": "string" },
-    "description": { "type": "string" }
-  },
-  "required": [
-    "userId",
-    "photoUrl",
-    "description"
-  ],
+  "properties": { "description": { "type": "string" } },
+  "required": [ "description" ],
   "additionalProperties": false
 }
