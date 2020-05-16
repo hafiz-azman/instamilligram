@@ -18,6 +18,7 @@ module.exports.create = async (id, name) => {
     createdAt = (new Date()).toISOString(),
     newUserDetails = {
       id,
+      name,
       createdAt
     }
 
@@ -35,22 +36,23 @@ module.exports.create = async (id, name) => {
   }
 }
 
-module.exports.update = async (id, userId, name, status, follows, followedBy) => {
+module.exports.update = async (id, name, status, follows, followedBy) => {
   logger.info('users.update businessLogic invoked', { parameters: {
     id,
-    userId,
     name,
     status,
     follows,
     followedBy
   } })
 
-  if (!id || !userId || (!name && !status && !follows && !followedBy)) {
+  if (!id || (!name && !status && !follows && !followedBy)) {
     throw 'Invalid parameters'
   }
 
   try {
-    const usersDataAccessResult = await usersDataAccess.update(id, userId, {
+    // add code to get user first to get createdDate range key
+
+    const usersDataAccessResult = await usersDataAccess.update(id, {
       name,
       status,
       follows,

@@ -34,7 +34,10 @@ module.exports.create = async newPostDetails => {
 }
 
 module.exports.get = async (id, userId) => {
-  logger.info('posts.get dataAccess invoked', { parameters: { id, userId } })
+  logger.info('posts.get dataAccess invoked', { parameters: {
+    id,
+    userId
+  } })
 
   if (!id || !userId) {
     throw 'Invalid parameters'
@@ -49,7 +52,7 @@ module.exports.get = async (id, userId) => {
       KeyConditionExpression: 'id=:id AND userId=:userId',
       ExpressionAttributeValues: {
         ':id': id,
-        ':id': userId
+        ':userId': userId
       },
       ScanIndexForward: false
     }).promise()
@@ -148,7 +151,10 @@ module.exports.update = async (id, userId, createdAt, postDetails) => {
 }
 
 module.exports.delete = async (userId, createdAt) => {
-  logger.info('posts.delete dataAccess invoked', { parameters: { userId, createdAt } })
+  logger.info('posts.delete dataAccess invoked', { parameters: {
+    userId,
+    createdAt
+  } })
 
   if (!userId || !createdAt) {
     throw 'Invalid parameters'

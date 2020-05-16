@@ -12,14 +12,13 @@ module.exports = async event => {
   const
     reqBody = JSON.parse(event.body),
     {
-      id,
       name,
       status,
       follows,
       followedBy
     } = reqBody
 
-  if (!id || (!name && !status && !follows && !followedBy)) {
+  if (!name && !status && !follows && !followedBy) {
     return errorResponseBuilder({
       statusCode: 400,
       message: 'Invalid request body'
@@ -30,7 +29,6 @@ module.exports = async event => {
     const
       userId = getUserIdFromAuth(event),
       usersUpdateBusinessLogicResult = await usersBusinessLogic.update(
-        id,
         userId,
         name,
         status,

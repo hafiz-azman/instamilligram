@@ -48,7 +48,7 @@ module.exports.create = async (userId, description) => {
 }
 
 module.exports.getAllByUser = async userId => {
-  logger.info('posts.get businessLogic invoked', { parameters: { userId }})
+  logger.info('posts.get businessLogic invoked', { parameters: { userId } })
 
   if (!userId) {
     throw 'Invalid parameters'
@@ -93,14 +93,15 @@ module.exports.update = async (id, userId, description, comment, likedBy, unlike
 
     const {
         createdAt,
-        description:currentDescription,
+        description: currentDescription,
         comments,
-        likes
       } = post,
       updatedPostDetails = {
         description: description || currentDescription,
         comments: comment ? comments.push(comment) : comments
       }
+
+    let { likes } = post
 
     if (likedBy) {
       likes.push(likedBy)

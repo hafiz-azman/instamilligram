@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Udacity Cloud Engineer Nano Degree Capstone Project - Backend",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint \"**/*.js\""
   },
   "author": "Hafiz Azman",
   "devDependencies": {
@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "aws-sdk": "^2.671.0",
+    "jsonwebtoken": "^8.5.1",
+    "uuid": "^8.0.0",
     "winston": "^3.2.1"
   }
 }

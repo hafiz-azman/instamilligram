@@ -2,7 +2,7 @@ const usersBusinessLogic = require('../../businessLogic/users')
 
 const
   { createLogger } = require('../../utils/logger'),
-  { errorResponseBuilder } = require('./utils')
+  { errorResponseBuilder, getUserIdFromAuth } = require('./utils')
 
 const logger = createLogger('createUserLambdaHttpLogger')
 
@@ -11,12 +11,9 @@ module.exports = async event => {
 
   const
     reqBody = JSON.parse(event.body),
-    {
-      id,
-      name // optional
-    } = reqBody
+    { name } = reqBody
 
-  if (!id) {
+  if (!name) {
     return errorResponseBuilder({
       statusCode: 400,
       message: 'Invalid request body'
@@ -24,10 +21,12 @@ module.exports = async event => {
   }
 
   try {
-    const usersCreateBusinessLogicResult = await usersBusinessLogic.create({
-      id,
-      name
-    })
+    const
+      userId = getUserIdFromAuth(event),
+      usersCreateBusinessLogicResult = await usersBusinessLogic.create({
+        userId,
+        name
+      })
 
     logger.info('usersCreateBusinessLogicResult', { usersCreateBusinessLogicResult })
 

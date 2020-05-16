@@ -9,12 +9,14 @@ const logger = createLogger('deletePostLambdaHttpLogger')
 module.exports = async event => {
   logger.info('deletePost lambda http invoked', { parameters: { event } })
 
-  const id = event.pathParameters.id
+  const
+    { pathParameters } = event,
+    { id } = pathParameters || {}
 
   if (!id) {
     return errorResponseBuilder({
       statusCode: 400,
-      message: 'Missing id'
+      message: 'Invalid request parameters'
     })
   }
 

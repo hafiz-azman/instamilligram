@@ -3,22 +3,22 @@ const { decode } = require('jsonwebtoken')
 module.exports.getUserIdFromAuth = event => {
   const
     { headers } = event || {},
-    { Authorization:authorization } = headers || {}
-    
+    { Authorization: authorization } = headers || {}
+
   if (!authorization) {
     throw 'Missing Authorization in header'
   }
-  
-  const 
+
+  const
     split = authorization.split(' '),
-    jwtToken = split[1],
+    [ jwtToken ] = split,
     decodedJwtToken = decode(jwtToken),
-    { sub:userId } = decodedJwtToken || {}
-  
+    { sub: userId } = decodedJwtToken || {}
+
   if (!userId) {
     throw 'No user id found in the token'
   }
-  
+
   return userId
 }
 
@@ -31,12 +31,12 @@ module.exports.errorResponseBuilder = error => {
       body: error
     }
   }
-  
+
   const {
     statusCode,
     message
   } = error
-  
+
   // if there's statusCode and/or message passed in the error object,
   // use those passed values in the response instead
   return {

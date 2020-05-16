@@ -9,12 +9,14 @@ const logger = createLogger('getPhotoUploadUrlLambdaHttpLogger')
 module.exports = async event => {
   logger.info('getPhotoUploadUrl lambda http invoked', { parameters: { event } })
 
-  const id = event.pathParameters.id
+  const
+    { pathParameters } = event,
+    { id } = pathParameters || {}
 
   if (!id) {
     return errorResponseBuilder({
       statusCode: 400,
-      message: 'Missing id'
+      message: 'Invalid request parameters'
     })
   }
 

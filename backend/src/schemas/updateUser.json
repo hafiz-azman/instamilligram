@@ -3,29 +3,16 @@
   "title": "updateUser",
   "type": "object",
   "properties": {
-    "id": { "type": "string" },
     "name": { "type": "string" },
     "status": { "type": "string" },
     "follows": { "type": "string" },
     "followedBy": { "type": "string" }
   },
   "oneOf": [
-    { "required": [
-        "id",
-        "name"
-    ] },
-    { "required": [
-        "id",
-        "status"
-    ] },
-    { "required": [
-        "id",
-        "follows"
-    ] },
-    { "required": [
-        "id",
-        "followedBy"
-    ] }
+    { "required": [ "name" ] },
+    { "required": [ "status" ] },
+    { "required": [ "follows" ] },
+    { "required": [ "followedBy" ] }
   ],
   "additionalProperties": false
 }

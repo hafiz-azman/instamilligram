@@ -48,11 +48,11 @@ provider:
   environment:
     AUTH_0_JSON_WEB_KEY_SET: https://dev-xuzc2hid.auth0.com/.well-known/jwks.json
     AUTH_0_SECRET: 6s2hJcLwb53TEgMJ2XbxLmfo3IOIFqHq8Evtn4bi0Mw15NPTEeQwfQP3EBcFWXTp
-    POSTS_ID_INDEX: PostsIdIndex
     SIGNED_URL_EXPIRATION: 300
     REGION: ${self:provider.region}
     USERS_TABLE: hafiz-instaounce-users-${self:provider.stage}
     POSTS_TABLE: hafiz-instaounce-posts-${self:provider.stage}
+    POSTS_ID_INDEX: PostsIdIndex
     PHOTOS_S3_BUCKET: hafiz-instaounce-photos-${self:provider.stage}
 
 # you can add packaging information here
@@ -98,7 +98,6 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:UpdateItem
-          - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
   createPost:
     handler: src/lambda/http/createPost
@@ -285,9 +284,13 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+          - AttributeName: createdAt
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.USERS_TABLE}
     postsDynamoDBTable:
